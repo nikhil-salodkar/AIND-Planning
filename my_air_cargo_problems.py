@@ -220,8 +220,14 @@ class AirCargoProblem(Problem):
         executed.
         """
         # TODO implement (see Russell-Norvig Ed-3 10.2.3  or Russell-Norvig Ed-2 11.2)
-        count = 0
-        return count
+        current_state = node.state
+        kb = PropKB()
+        kb.tell(decode_state(current_state, self.state_map).pos_sentence())
+        max_score = len(self.goal)
+        for clause in self.goal:
+            if clause in kb.clauses:
+                max_score -= 1
+        return max_score
 
 
 def air_cargo_p1() -> AirCargoProblem:
